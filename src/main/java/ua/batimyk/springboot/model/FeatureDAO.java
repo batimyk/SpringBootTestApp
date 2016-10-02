@@ -42,14 +42,7 @@ public class FeatureDAO {
     }
 
     public Feature getById(long id) {
-        Feature feature;
-        try {
-             feature = (Feature) getSession().get(Feature.class, id);
-        }
-        catch (Exception e){
-            return null;
-        }
-        return feature;
+         return getSession().get(Feature.class, id);
     }
 
     @Autowired
