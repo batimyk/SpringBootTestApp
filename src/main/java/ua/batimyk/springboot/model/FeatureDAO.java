@@ -1,5 +1,6 @@
 package ua.batimyk.springboot.model;
 
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,16 +35,30 @@ public class FeatureDAO {
         getSession().delete(feature);
     }
 
-    public Feature getByRenderingEngine(String renderingEngine) {
-        return (Feature) getSession().createQuery(
-                "from features where rendering_engine = :rendering_engine")
-                .setParameter("rendering_engine", renderingEngine)
-                .uniqueResult();
+    public Feature getById(long id) {
+        return getSession().get(Feature.class, id);
     }
 
-    public Feature getById(long id) {
-         return getSession().get(Feature.class, id);
+
+    public List<Object> getByRenderingEngine() {
+
+        return getSession().createSQLQuery(
+                "SELECT \n" +
+                        "    rendering_engine as rendering_engine,\n" +
+                        "    GROUP_CONCAT(DISTINCT browser\n" +
+                        "        SEPARATOR ', ') as browser,\n" +
+                        "    GROUP_CONCAT(DISTINCT platforms\n" +
+                        "        SEPARATOR ', ') as platforms,\n" +
+                        "    GROUP_CONCAT(DISTINCT engine_version\n" +
+                        "        SEPARATOR ', ') as engine_versions,\n" +
+                        "    GROUP_CONCAT(DISTINCT css_grade\n" +
+                        "        SEPARATOR ', ') as css_grades\n" +
+                        "FROM\n" +
+                        "    Features\n" +
+                        "GROUP BY rendering_engine")
+                .list();
     }
+
 
     @Autowired
     private SessionFactory sessionFactory;

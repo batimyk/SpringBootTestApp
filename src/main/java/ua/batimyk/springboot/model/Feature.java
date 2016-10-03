@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 @Table(name = "features",
         uniqueConstraints =
         @UniqueConstraint(columnNames =
-                         {"rendering_engine"
+                {"rendering_engine"
                         , "browser"
                         , "platforms"
                         , "engine_version"
@@ -58,6 +58,14 @@ public class Feature {
         this.platforms = platforms;
         this.engineVersion = engineVersion;
         this.cssGrade = cssGrade;
+    }
+
+    public Feature(String[] values) {
+        this.renderingEngine = values[0];
+        this.browser = values[1];
+        this.platforms = values[2];
+        this.engineVersion = values[3];
+        this.cssGrade = values[4];
     }
 
     public Feature() {

@@ -92,6 +92,15 @@ public class FeatureController {
         return new ResponseEntity<>(feature, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/getByRenderingEngine", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public ResponseEntity<List<Object>> getByRenderingEngine() {
+        List<Object> byRenderingEngine = featureDAO.getByRenderingEngine();
+
+        if (byRenderingEngine.size() == 0) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(byRenderingEngine, HttpStatus.OK);
+    }
 
     @Autowired
     private FeatureDAO featureDAO;
